@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "boards")
 @Data
 @NoArgsConstructor
-@AllArrgsConstructor
+@AllArgsConstructor
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -16,6 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findByPin(Pin pin);
     List<Comment> findByUser(User user);
 
+
     @Query("SELECT c FROM Comment c WHERE c.pin = :pin ORDER BY c.createdAt DESC")
     List<Comment> findPinComments(@Param("pin") Pin pin, Pageable pageable);
 

@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
 @Service
 @Transactional
 public class PinService {
@@ -23,24 +22,48 @@ public class PinService {
         this.userRepository = userRepository;
     }
 
-    public Pin createPin(Pin pin, Long userId) {
+    public Pin createPin(PinCreationDto pinDto, Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+
+        Pin pin = new Pin();
+        pin.setTitle(pinDto.getTitle());
+        pin.setDescription(pinDto.getDescription());
+        pin.setImageUrl(pinDto.getImageUrl());
         pin.setUser(user);
+
         return pinRepository.save(pin);
+    }
+
+    public Pin getPin(Long id) {
+        return pinRepository.findById(id)
+                .orElseThrow(() -> new PinNotFoundException("Pin not found with id: " + id));
+    }
+
+    public List<Pin> getPinsByUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+        return pinRepository.findByUser(user);
+    }
+
+    public List<Pin> searchPins(String keyword) {
+        return pinRepository.searchPins(keyword);
     }
 
     public List<Pin> getMostLikedPins(int limit) {
         return pinRepository.findMostLikedPins(PageRequest.of(0, limit));
     }
 
-    public boolean toggleLike(Long pinId, Long userId) {
-        Pin pin = pinRepository.findById(pinId)
-                .orElseThrow(() -> new PinNotFoundException("Pin not found"));
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+    public List<Pin> getRecentPins(int limit) {
+        return pinRepository.findRecentPins(PageRequest.of(0, limit));
+    }
 
-        if (pin.getLikes().contains(user)) {
+    public boolean toggleLike(Long pinId, Long userId) {
+        Pin pin = getPin(pinId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
+
+        if (pinRepository.isLikedByUser(pinId, userId)) {
             pin.getLikes().remove(user);
             return false;
         } else {
