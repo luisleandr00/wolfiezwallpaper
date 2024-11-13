@@ -1,5 +1,6 @@
 package com.wolfiez.wallpaper.service;
 
+import com.wolfiez.wallpaper.DTO.PinDto;
 import com.wolfiez.wallpaper.entity.Pin;
 import com.wolfiez.wallpaper.entity.User;
 import com.wolfiez.wallpaper.exception.PinNotFoundException;
@@ -22,7 +23,7 @@ public class PinService {
         this.userRepository = userRepository;
     }
 
-    public Pin createPin(PinCreationDto pinDto, Long userId) {
+    public Pin createPin(PinDto pinDto, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 

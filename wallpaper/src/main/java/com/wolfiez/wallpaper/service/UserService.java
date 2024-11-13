@@ -1,15 +1,20 @@
 package com.wolfiez.wallpaper.service;
 
+import com.wolfiez.wallpaper.DTO.UserDto;
 import com.wolfiez.wallpaper.entity.User;
 import com.wolfiez.wallpaper.exception.DuplicateResourceException;
 import com.wolfiez.wallpaper.exception.UserNotFoundException;
 import com.wolfiez.wallpaper.repository.RoleRepository;
 import com.wolfiez.wallpaper.repository.UserRepository;
+import com.wolfiez.wallpaper.segurity.JwtTokenProvider;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -18,13 +23,14 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(UserRegistrationDto registrationDto) {
+    public User registerUser(UserDto registrationDto) {
         if (userRepository.existsByEmail(registrationDto.getEmail())) {
             throw new DuplicateResourceException("Email already registered: " + registrationDto.getEmail());
         }
@@ -43,7 +49,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
     }
 
-    public User updateUser(Long id, UserUpdateDto updateDto) {
+    public User updateUser(Long id, UserDto updateDto) {
         User user = getUserById(id);
 
         if (!user.getEmail().equals(updateDto.getEmail()) && userRepository.existsByEmail(updateDto.getEmail())) {

@@ -1,5 +1,6 @@
 package com.wolfiez.wallpaper.service;
 
+import com.wolfiez.wallpaper.DTO.BoardDto;
 import com.wolfiez.wallpaper.entity.Board;
 import com.wolfiez.wallpaper.entity.Pin;
 import com.wolfiez.wallpaper.entity.User;
@@ -27,7 +28,7 @@ public class BoardService {
         this.pinRepository = pinRepository;
     }
 
-    public Board createBoard(BoardCreationDto boardDto, Long userId) {
+    public Board createBoard(BoardDto boardDto, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id: " + userId));
 
