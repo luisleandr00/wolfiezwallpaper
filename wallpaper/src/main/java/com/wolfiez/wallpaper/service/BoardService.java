@@ -34,6 +34,7 @@ public class BoardService {
 
         Board board = new Board();
         board.setName(boardDto.getName());
+        board.setImage(boardDto.getImage());
         board.setDescription(boardDto.getDescription());
         board.setPrivate(boardDto.isPrivate());
         board.setUser(user);

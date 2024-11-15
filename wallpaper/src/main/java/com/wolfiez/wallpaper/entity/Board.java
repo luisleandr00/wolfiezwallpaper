@@ -24,6 +24,9 @@ public class Board {
 
     private String description;
 
+    @Column(name = "img_board")
+    private String image;
+
     @Column(name = "is_private")
     private boolean isPrivate = false;
 
