@@ -1,12 +1,11 @@
 package com.wolfiez.wallpaper.controller;
 
 import com.wolfiez.wallpaper.DTO.UserDto;
-import com.wolfiez.wallpaper.dto.UserRegistrationDto;
-import com.wolfiez.wallpaper.dto.UserUpdateDto;
 import com.wolfiez.wallpaper.entity.User;
 import com.wolfiez.wallpaper.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +19,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody UserDto registrationDto) {
-        User registeredUser = userService.registerUser(registrationDto);
-        return new ResponseEntity<>(registeredUser, HttpStatus.CREATED);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {

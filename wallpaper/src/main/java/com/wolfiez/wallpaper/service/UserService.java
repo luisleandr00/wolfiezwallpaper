@@ -6,15 +6,13 @@ import com.wolfiez.wallpaper.exception.DuplicateResourceException;
 import com.wolfiez.wallpaper.exception.UserNotFoundException;
 import com.wolfiez.wallpaper.repository.RoleRepository;
 import com.wolfiez.wallpaper.repository.UserRepository;
-import com.wolfiez.wallpaper.segurity.JwtTokenProvider;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @Transactional
@@ -39,7 +37,7 @@ public class UserService {
         user.setName(registrationDto.getName());
         user.setEmail(registrationDto.getEmail());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        user.setRoles(Collections.singleton(roleRepository.findByName("ROLE_USER").orElseThrow(() -> new RuntimeException("ROLE_USER not found"))));
+        user.setRoles(Collections.singleton(roleRepository.findByName("USER").orElseThrow(() -> new RuntimeException("ROLE_USER not found"))));
 
         return userRepository.save(user);
     }
