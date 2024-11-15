@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!-- Header para usuarios no autenticados -->
+<nav th:fragment="header-guest" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="/boards/public">
+      <i class="fas fa-images me-2"></i>
+      <span class="fw-bold">Wolfiez</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Iniciar Sesión</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-primary ms-2" href="/register">Registrarse</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Header para usuarios autenticados -->
+<nav th:fragment="header-auth" class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/boards/public">
+      <i class="fas fa-images me-2"></i>
+      Wallpaper App
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav1">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/dashboard">
+            <i class="fas fa-columns me-1"></i> Boards
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/pins">
+            <i class="fas fa-thumbtack me-1"></i> Pins
+          </a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <form class="d-flex me-3">
+          <input class="form-control me-2" type="search" placeholder="Search boards...">
+          <button class="btn btn-outline-light" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+        <div class="dropdown">
+          <a class="btn btn-link text-light text-decoration-none dropdown-toggle"
+             href="#"
+             role="button"
+             data-bs-toggle="dropdown">
+            <img th:src="${#authentication.principal.profileImage != null ? #authentication.principal.profileImage : '/api/placeholder/32/32'}"
+                 class="rounded-circle me-2"
+                 width="32"
+                 height="32"
+                 th:alt="${#authentication.principal.name}">
+            <span th:text="${#authentication.principal.name}">User Name</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/profile">
+              <i class="fas fa-user me-2"></i> Profile
+            </a></li>
+            <li><a class="dropdown-item" href="/settings">
+              <i class="fas fa-cog me-2"></i> Settings
+            </a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form th:action="@{/logout}" method="post">
+                <button type="submit" class="dropdown-item text-danger">
+                  <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+</html>

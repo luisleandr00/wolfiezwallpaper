@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableros Públicos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .card-img-top-wrapper {
+            position: relative;
+            padding-top: 100%; /* Aspect ratio 1:1 */
+            overflow: hidden;
+        }
+        .card-img-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card {
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .placeholder-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<!-- Navbar -->
+<div sec:authorize="isAuthenticated()">
+    <div th:replace="~{fragments/header :: header-auth}"></div>
+</div>
+<div sec:authorize="!isAuthenticated()">
+    <div th:replace="~{fragments/header :: header-guest}"></div>
+</div>
+<!-- Header -->
+<div class="bg-white py-4 shadow-sm mb-4">
+    <div class="container">
+        <h1 class="display-5 fw-bold">Explora Tableros Públicos</h1>
+        <p class="lead text-muted">
+            Descubre colecciones increíbles creadas por nuestra comunidad
+        </p>
+    </div>
+</div>
+
+<!-- Boards Grid -->
+<div class="container py-4">
+    <div class="row g-4">
+        <!-- Board Card -->
+        <div th:each="board : ${boards}" class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div class="card h-100 shadow-sm">
+                <!-- Board Image -->
+                <div class="card-img-top-wrapper">
+                    <img th:if="${board.image}"
+                         th:src="${board.image}"
+                         class="card-img-top"
+                         th:alt="${board.name}">
+                    <div th:unless="${board.image}" class="placeholder-image">
+                        <i class="fas fa-images fa-3x text-secondary"></i>
+                    </div>
+                </div>
+
+                <!-- Board Info -->
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${board.name}">
+                        Nombre del Tablero
+                    </h5>
+                    <p class="card-text text-muted small"
+                       style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
+                       th:text="${board.description}">
+                        Descripción del tablero
+                    </p>
+
+                    <!-- Board Stats -->
+                    <div class="d-flex justify-content-between align-items-center mt-3 small text-muted">
+                        <div>
+                            <i class="fas fa-thumbtack me-1"></i>
+                            <span th:text="${board.pins.size()}">0</span>
+                            <span class="ms-1">pins</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-user me-1"></i>
+                            <span th:text="${board.user.username}">Usuario</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -2,6 +2,7 @@ package com.wolfiez.wallpaper.controller;
 
 import com.wolfiez.wallpaper.DTO.BoardDto;
 import com.wolfiez.wallpaper.entity.Board;
+import com.wolfiez.wallpaper.security.CustomUserDetails;
 import com.wolfiez.wallpaper.service.BoardService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
