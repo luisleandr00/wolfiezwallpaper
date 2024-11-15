@@ -1,7 +1,6 @@
 package com.wolfiez.wallpaper.controller;
 
 import com.wolfiez.wallpaper.DTO.CommentDto;
-import com.wolfiez.wallpaper.dto.CommentCreationDto;
 import com.wolfiez.wallpaper.entity.Comment;
 import com.wolfiez.wallpaper.service.CommentService;
 import org.springframework.http.HttpStatus;
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/comments")
@@ -26,8 +26,8 @@ public class CommentController {
     }
 
     @GetMapping("/pin/{pinId}")
-    public ResponseEntity<List<Comment>> getPinComments(@PathVariable Long pinId, @RequestParam(defaultValue = "20") int limit) {
-        List<Comment> pinComments = commentService.getPinComments(pinId, limit);
+    public ResponseEntity<Optional<Comment>> getPinComments(@PathVariable Long pinId, @RequestParam(defaultValue = "20") int limit) {
+        Optional<Comment> pinComments = commentService.getPinComments(pinId, limit);
         return new ResponseEntity<>(pinComments, HttpStatus.OK);
     }
 

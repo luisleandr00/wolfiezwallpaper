@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.print.Pageable;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -44,10 +45,10 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> getPinComments(Long pinId, int limit) {
+    public Optional<Comment> getPinComments(Long pinId, int limit) {
         Pin pin = pinRepository.findById(pinId)
                 .orElseThrow(() -> new PinNotFoundException("Pin not found with id: " + pinId));
-        return commentRepository.findPinComments(pin, (Pageable) PageRequest.of(0, limit));
+        return commentRepository.findPinComments(pin, (PageRequest.of(0, limit)));
     }
 
     public List<Comment> getUserComments(Long userId) {

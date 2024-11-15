@@ -1,7 +1,6 @@
 package com.wolfiez.wallpaper.repository;
 
-import com.wolfiez.wallpaper.entity.Pin;
-import com.wolfiez.wallpaper.entity.UserPinStats;
+import com.wolfiez.wallpaper.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface StatsRepository {
+public interface StatsRepository extends JpaRepository<User, Long> {
     @Query("SELECT COUNT(p) FROM Pin p")
     long getTotalPins();
 
